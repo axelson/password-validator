@@ -1,6 +1,10 @@
 defmodule PasswordValidator.Validators.CharacterSetValidator.Config do
   defstruct [:upper_case, :lower_case, :numbers, :special, :allowed_special_characters]
+  @type keys :: :upper_case | :lower_case | :numbers | :special
 
+  alias PasswordValidator.Validators.CharacterSetValidator.Config
+
+  @spec from_options(list({atom(), any()})) :: %Config{}
   def from_options(opts) do
     config = Keyword.get(opts, :character_set, [])
 
@@ -13,6 +17,7 @@ defmodule PasswordValidator.Validators.CharacterSetValidator.Config do
     }
   end
 
+  @spec character_set_config(list(), keys()) :: list(integer() | :infinity)
   defp character_set_config(opts, key) do
     option = Keyword.get(opts, key, [0, :infinity])
     case option do
@@ -23,7 +28,13 @@ defmodule PasswordValidator.Validators.CharacterSetValidator.Config do
     end
   end
 
+  @spec allowed_special_characters_config(list()) :: String.t | :all
   defp allowed_special_characters_config(opts) do
-    Keyword.get(opts, :allowed_special_characters, :all)
+    case Keyword.get(opts, :allowed_special_characters, :all) do
+      allowed_characters when is_binary(allowed_characters) -> allowed_characters
+      :all -> :all
+      invalid_config ->
+        raise "Invalid allowed_special_characters config. Got: #{inspect invalid_config} when a binary (string) was expected"
+    end
   end
 end

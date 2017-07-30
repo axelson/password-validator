@@ -26,33 +26,23 @@ defmodule PasswordValidator.Validators.CharacterSetValidator do
     ]
   ]
   """
-  # TODO: Do we need both of these?
-  def validate(_, []), do: []
-  def validate(_, nil), do: []
-  def validate(string, opts) do
+  def validate(_, []), do: :ok
+  def validate(string, opts) when is_list(opts) do
     config = Config.from_options(opts)
     validate_password(string, config)
   end
 
+  @spec validate_password(String.t, %Config{}) :: :ok | {:error, nonempty_list()}
   defp validate_password(string, %Config{} = config) do
     counts = count_character_sets(string, config.allowed_special_characters)
 
     @character_sets
     |> Enum.map(& validate_character_set(&1, counts, config))
     |> Enum.concat([validate_other(counts)])
-    |> return_errors_or_ok()
+    |> PasswordValidator.Validator.return_errors_or_ok()
   end
 
-  defp return_errors_or_ok(results) do
-    errors = for {:error, reason} <- results, do: {:error, reason}
-    if length(errors) > 0 do
-      errors
-    else
-      :ok
-    end
-  end
-
-
+  @spec validate_character_set(atom(), map(), %Config{}) :: :ok | {:error, String.t}
   for character_set <- @character_sets do
     def validate_character_set(
       unquote(character_set),
@@ -63,6 +53,7 @@ defmodule PasswordValidator.Validators.CharacterSetValidator do
     end
   end
 
+  @spec do_validate_character_set(atom(), integer(), list()) :: :ok | {:error, String.t}
   def do_validate_character_set(character_set, count, config)
   def do_validate_character_set(_, _, [0, :infinity]) do
     :ok
@@ -88,10 +79,10 @@ defmodule PasswordValidator.Validators.CharacterSetValidator do
   defp validate_other(%{other: other_characters}) when length(other_characters) > 0,
     do: {:error, "Invalid character(s) found. (#{other_characters})"}
 
-  # TODO: make private
-  def count_character_sets(string, special_characters \\ nil, counts \\ @initial_counts)
-  def count_character_sets("", _, counts), do: counts
-  def count_character_sets(string, special_characters, counts) do
+  @spec count_character_sets(String.t, String.t | nil, map()) :: map()
+  defp count_character_sets(string, special_characters, counts \\ @initial_counts)
+  defp count_character_sets("", _, counts), do: counts
+  defp count_character_sets(string, special_characters, counts) do
     {grapheme, rest} = String.next_grapheme(string)
 
     counts = cond do
@@ -110,13 +101,14 @@ defmodule PasswordValidator.Validators.CharacterSetValidator do
     count_character_sets(rest, special_characters, counts)
   end
 
+  @spec update_count(map(), atom()) :: map()
   defp update_count(counts, key) do
     Map.update!(counts, key, & &1 + 1)
   end
 
+  @spec is_special_character(String.t, :all | String.t) :: boolean()
   defp is_special_character(_string, :all), do: true
   defp is_special_character(string, special_characters) when is_binary(special_characters) do
     String.contains?(special_characters, string)
   end
-  defp is_special_character(_, special_characters), do: raise "Invalid special characters config (#{inspect special_characters})"
 end

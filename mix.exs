@@ -2,12 +2,16 @@ defmodule PasswordValidator.Mixfile do
   use Mix.Project
 
   def project do
-    [app: :password_validator,
-     version: "0.1.0",
-     elixir: "~> 1.4",
-     build_embedded: Mix.env == :prod,
-     start_permanent: Mix.env == :prod,
-     deps: deps()]
+    [
+      app: :password_validator,
+      version: "0.1.0",
+      elixir: "~> 1.4",
+      build_embedded: Mix.env == :prod,
+      start_permanent: Mix.env == :prod,
+      deps: deps(),
+      # dialyzer: [ flags: ["-Wunmatched_returns", :error_handling, :race_conditions, :underspecs]],
+      dialyzer: [ flags: ["-Wunmatched_returns", :error_handling, :race_conditions]],
+    ]
   end
 
   # Configuration for the OTP application
@@ -30,6 +34,7 @@ defmodule PasswordValidator.Mixfile do
   defp deps do
     [
       {:ecto, "~> 2.1"},
+      {:dialyxir, "~> 0.5", only: [:dev], runtime: false},
     ]
   end
 end
