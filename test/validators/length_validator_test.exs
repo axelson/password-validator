@@ -14,4 +14,16 @@ defmodule PasswordValidator.Validators.LengthValidatorTest do
   test "emoji characters are counted as one character" do
     assert validate("🤔12", [length: [min: 3, max: 3]]) == :ok
   end
+
+  test "an invalid min value raises an error" do
+    assert_raise RuntimeError, "min must be an integer", fn ->
+      validate("", [length: [min: "5"]])
+    end
+  end
+
+  test "an invalid max value raises an error" do
+    assert_raise RuntimeError, "max must be an integer", fn ->
+      validate("", [length: [max: "guild"]])
+    end
+  end
 end

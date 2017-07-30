@@ -12,14 +12,16 @@ defmodule PasswordValidator.Validators.LengthValidator do
     ]
   ]
 
+  ## Examples
+
       iex> LengthValidator.validate("simple2", [length: [min: 3]])
       :ok
 
       iex> LengthValidator.validate("too_short", [length: [min: 10]])
-      {:error, ["String is too short"]}
+      {:error, ["String is too short. Got 9 needed 10"]}
 
       iex> LengthValidator.validate("too_long", [length: [min: 3, max: 6]])
-      {:error, ["String is too long"]}
+      {:error, ["String is too long. Got 8 needed 6"]}
   """
   def validate(string, opts) do
     config = Keyword.get(opts, :length, [])
@@ -45,18 +47,18 @@ defmodule PasswordValidator.Validators.LengthValidator do
   defp valid_min_length?(_, :infinity),
     do: :ok
   defp valid_min_length?(_, min) when not is_integer(min),
-    do: {:error, "min must be integer"}
+    do: raise "min must be an integer"
   defp valid_min_length?(length, min) when length < min,
-    do: {:error, "String is too short"}
+    do: {:error, "String is too short. Got #{length} needed #{min}"}
   defp valid_min_length?(_, _),
     do: :ok
 
   defp valid_max_length?(_, :infinity),
     do: :ok
   defp valid_max_length?(_, max) when not is_integer(max),
-    do: {:error, "max must be integer"}
+    do: raise "max must be an integer"
   defp valid_max_length?(length, max) when length > max,
-    do: {:error, "String is too long"}
+    do: {:error, "String is too long. Got #{length} needed #{max}"}
   defp valid_max_length?(_, _),
     do: :ok
 end

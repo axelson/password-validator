@@ -15,7 +15,7 @@ defmodule PasswordValidatorTest do
       changeset = validate("Passw0rd", opts)
 
       refute changeset.valid?
-      assert errors_on(changeset) == %{password: ["String is too long"]}
+      assert errors_on(changeset) == %{password: ["String is too long. Got 8 needed 6"]}
     end
 
     test "validate with two errors returns an invalid changeset" do
@@ -30,7 +30,7 @@ defmodule PasswordValidatorTest do
       assert errors_on(changeset) == %{
         password: [
           "Not enough numbers characters (got 2 needed 3)",
-          "String is too short",
+          "String is too short. Got 6 needed 9",
         ]
       }
     end
@@ -43,13 +43,13 @@ defmodule PasswordValidatorTest do
   test "validate_password length too short" do
     opts = [length: [min: 8]]
     assert {:error, reasons} = PasswordValidator.validate_password("short", opts)
-    assert "String is too short" in reasons
+    assert "String is too short. Got 5 needed 8" in reasons
   end
 
   test "validate_password length too long" do
     opts = [length: [max: 6]]
     assert {:error, reasons} = PasswordValidator.validate_password("way too long", opts)
-    assert "String is too long" in reasons
+    assert "String is too long. Got 12 needed 6" in reasons
   end
 
   test "validate_password with invalid options" do
@@ -64,8 +64,16 @@ defmodule PasswordValidatorTest do
       length: [min: 7],
       character_set: [upper_case: 1]
     ]
+
     result = PasswordValidator.validate_password("short", opts)
-    assert result == {:error, ["String is too short", "Not enough upper_case characters (got 0 needed 1)"]}
+
+    assert result == {
+      :error,
+      [
+        "String is too short. Got 5 needed 7",
+        "Not enough upper_case characters (got 0 needed 1)",
+      ]
+    }
   end
 
   defp validate(password, opts \\ []) do
