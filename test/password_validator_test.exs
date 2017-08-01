@@ -80,7 +80,7 @@ defmodule PasswordValidatorTest do
     defmodule CustomValidator do
       @behaviour PasswordValidator.Validator
 
-      def validate(string, opts) do
+      def validate(_string, _opts) do
         {:error, ["Invalid password"]}
       end
     end

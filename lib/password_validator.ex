@@ -1,6 +1,31 @@
 defmodule PasswordValidator do
   @moduledoc """
-  PasswordValidator makes it easy to validate passwords.
+  Primary interface to PasswordValidator. The two main methods are `validate/3`
+  and `validate_password/2`.
+
+  ## Examples
+
+      iex> opts = [
+      ...>   length: [max: 6],
+      ...> ]
+      iex> PasswordValidator.validate_password("too_long", opts)
+      {:error, ["String is too long. Got 8 needed 6"]}
+
+      iex> opts = [
+      ...>   length: [min: 5, max: 30],
+      ...>   character_set: [
+      ...>     lower_case: 1,  # at least one lower case letter
+      ...>     upper_case: [3, :infinity], # at least three upper case letters
+      ...>     numbers: [0, 4],  # at most 4 numbers
+      ...>     special: [0, 0],  # no special characters allowed
+      ...>   ]
+      ...> ]
+      iex> changeset = Ecto.Changeset.change({%{password: "Simple_pass12345"}, %{}}, %{})
+      iex> changeset = PasswordValidator.validate(changeset, :password, opts)
+      iex> changeset.errors
+      [password: {"Too many special (got 1 max was 0)", []},
+      password: {"Too many numbers (got 5 max was 4)", []},
+      password: {"Not enough upper_case characters (got 1 needed 3)", []}]
   """
 
   alias PasswordValidator.Validators

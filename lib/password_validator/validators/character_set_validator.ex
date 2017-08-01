@@ -1,4 +1,9 @@
 defmodule PasswordValidator.Validators.CharacterSetValidator do
+  @moduledoc """
+  Validates a password by checking the different types of characters contained
+  within.
+  """
+
   @behaviour PasswordValidator.Validator
 
   @initial_counts %{

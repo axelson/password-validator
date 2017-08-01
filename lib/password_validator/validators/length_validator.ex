@@ -1,4 +1,8 @@
 defmodule PasswordValidator.Validators.LengthValidator do
+  @moduledoc """
+  Validates a password by checking the length of the password.
+  """
+
   @behaviour PasswordValidator.Validator
 
   @doc """
