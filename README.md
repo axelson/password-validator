@@ -92,3 +92,9 @@ be found at [https://hexdocs.pm/password_validator](https://hexdocs.pm/password_
 
 * Doesn't deal well with non-latin characters
 * Currently always pulls in Ecto as a dependency
+
+## Contributing
+
+To run the default test suite, run `mix test`
+
+PR's and discussions welcome!
