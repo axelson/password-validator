@@ -24,7 +24,7 @@ defmodule PasswordValidator do
 
   def validate_password(password, opts \\ []) do
     results =
-      @validators
+      validators(opts)
       |> Enum.map(& run_validator(&1, password, opts))
 
     errors = for({:error, reason} <- results, do: reason)
@@ -38,5 +38,11 @@ defmodule PasswordValidator do
 
   defp run_validator(validator, password, opts) do
     apply(validator, :validate, [password, opts])
+  end
+
+  defp validators(opts) do
+    opts
+    |> Keyword.get(:additional_validators, [])
+    |> Enum.concat(@validators)
   end
 end

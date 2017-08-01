@@ -76,6 +76,19 @@ defmodule PasswordValidatorTest do
     }
   end
 
+  test "validate_password works with a custom validator" do
+    defmodule CustomValidator do
+      @behaviour PasswordValidator.Validator
+
+      def validate(string, opts) do
+        {:error, ["Invalid password"]}
+      end
+    end
+
+    result = PasswordValidator.validate_password("simple", additional_validators: [CustomValidator])
+    assert result == {:error, ["Invalid password"]}
+  end
+
   defp validate(password, opts \\ []) do
     {%{password: password}, password: :string}
     |> Ecto.Changeset.change
