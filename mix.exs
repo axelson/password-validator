@@ -4,13 +4,17 @@ defmodule PasswordValidator.Mixfile do
   def project do
     [
       app: :password_validator,
+      name: "Postgrex",
       version: "0.1.0",
+      description: description(),
+      package: package(),
       elixir: "~> 1.4",
       build_embedded: Mix.env == :prod,
       start_permanent: Mix.env == :prod,
       deps: deps(),
       # dialyzer: [ flags: ["-Wunmatched_returns", :error_handling, :race_conditions, :underspecs]],
       dialyzer: [ flags: ["-Wunmatched_returns", :error_handling, :race_conditions]],
+      source_url: "https://github.com/axelson/password-validator"
     ]
   end
 
@@ -20,6 +24,24 @@ defmodule PasswordValidator.Mixfile do
   def application do
     # Specify extra applications you'll use from Erlang/Elixir
     [extra_applications: [:logger]]
+  end
+
+  def description do
+    """
+    A library to validate passwords, with built-in validators for password
+    length as well as the character sets used. Custom validators can also be
+    created.
+    """
+  end
+
+  def package do
+    [
+      name: :password_validator,
+      files: ["lib", "priv", "mix.exs", "README*", "readme*", "LICENSE*", "license*"],
+      maintainers: ["Jason Axelson"],
+      licenses: ["Apache 2.0"],
+      links: %{"GitHub" => "https://github.com/axelson/password-validator"}
+    ]
   end
 
   # Dependencies can be Hex packages:
