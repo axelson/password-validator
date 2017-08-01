@@ -57,6 +57,7 @@ defmodule PasswordValidator.Mixfile do
     [
       {:ecto, "~> 2.1"},
       {:dialyxir, "~> 0.5", only: [:dev], runtime: false},
+      {:ex_doc, ">= 0.0.0", only: :dev},
     ]
   end
 end
