@@ -47,6 +47,7 @@ defmodule PasswordValidator do
     end
   end
 
+  @spec validate_password(String.t, list()) :: :ok | {:error, nonempty_list()}
   def validate_password(password, opts \\ []) do
     results =
       validators(opts)
