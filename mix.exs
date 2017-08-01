@@ -1,20 +1,28 @@
 defmodule PasswordValidator.Mixfile do
   use Mix.Project
 
+  @version "0.1.0"
+
   def project do
     [
       app: :password_validator,
-      name: "Postgrex",
-      version: "0.1.0",
+      version: @version,
       description: description(),
       package: package(),
-      elixir: "~> 1.4",
+      elixir: "~> 1.5",
       build_embedded: Mix.env == :prod,
       start_permanent: Mix.env == :prod,
       deps: deps(),
       # dialyzer: [ flags: ["-Wunmatched_returns", :error_handling, :race_conditions, :underspecs]],
       dialyzer: [ flags: ["-Wunmatched_returns", :error_handling, :race_conditions]],
-      source_url: "https://github.com/axelson/password-validator"
+
+      # Docs
+      name: "Password Validator",
+      docs: [
+        source_ref: "v#{@version}", main: "PasswordValidator",
+        canonical: "https://hexdocs.pm/password_validator",
+        source_url: "https://github.com/axelson/password-validator",
+      ]
     ]
   end
 

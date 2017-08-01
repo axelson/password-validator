@@ -1,6 +1,6 @@
 defmodule PasswordValidator.Validator do
   @moduledoc """
-  A
+  Specifies the behaviour needed to implement a custom (or built-in) validator.
   """
 
   @doc """
