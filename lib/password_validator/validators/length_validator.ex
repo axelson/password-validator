@@ -39,6 +39,11 @@ defmodule PasswordValidator.Validators.LengthValidator do
   defp validate_password(_, min_length, max_length)
     when is_integer(min_length) and is_integer(max_length) and min_length > max_length, do:
       raise "Min length cannot be shorter than the max"
+
+  defp validate_password(nil, min_length, max_length) do
+    validate_password("", min_length, max_length)
+  end
+
   defp validate_password(string, min_length, max_length) do
     length = String.length(string)
     [

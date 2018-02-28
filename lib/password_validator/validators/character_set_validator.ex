@@ -37,6 +37,10 @@ defmodule PasswordValidator.Validators.CharacterSetValidator do
     validate_password(string, config)
   end
 
+  defp validate_password(nil, %Config{} = config) do
+    validate_password("", config)
+  end
+
   @spec validate_password(String.t, %Config{}) :: :ok | {:error, nonempty_list()}
   defp validate_password(string, %Config{} = config) do
     counts = count_character_sets(string, config.allowed_special_characters)
