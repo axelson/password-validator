@@ -58,7 +58,7 @@ defmodule PasswordValidator.Validators.LengthValidator do
   defp valid_min_length?(_, min) when not is_integer(min),
     do: raise "min must be an integer"
   defp valid_min_length?(length, min) when length < min,
-    do: {:error, "String is too short. Got #{length} needed #{min}"}
+    do: {:error, "String is too short. Only #{length} characters instead of #{min}"}
   defp valid_min_length?(_, _),
     do: :ok
 
@@ -67,7 +67,7 @@ defmodule PasswordValidator.Validators.LengthValidator do
   defp valid_max_length?(_, max) when not is_integer(max),
     do: raise "max must be an integer"
   defp valid_max_length?(length, max) when length > max,
-    do: {:error, "String is too long. Got #{length} needed #{max}"}
+    do: {:error, "String is too long. #{length} but maximum is #{max}"}
   defp valid_max_length?(_, _),
     do: :ok
 end
