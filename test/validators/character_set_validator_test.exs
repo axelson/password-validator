@@ -14,7 +14,7 @@ defmodule PasswordValidator.Validators.CharacterSetValidatorTest do
   test "upper_case 2" do
     opts = [character_set: [upper_case: 2]]
     result = validate("String", opts)
-    assert result == {:error, ["Not enough upper_case characters (got 1 needed 2)"]}
+    assert result == {:error, ["Not enough upper_case characters (only 1 instead of at least 2)"]}
   end
 
   test "upper_case [0, 2]" do
@@ -47,7 +47,7 @@ defmodule PasswordValidator.Validators.CharacterSetValidatorTest do
     ]]
     result = validate("String_speci@l%", opts)
     assert result == {:error, [
-      "Not enough special characters (got 1 needed 3)",
+      "Not enough special characters (only 1 instead of at least 3)",
       "Invalid character(s) found. (@%)",
     ]}
   end
