@@ -1,3 +1,13 @@
+# 0.2.0 (2018-03-19)
+
+* Handle the case when a nil password is passed in
+** https://github.com/axelson/password-validator/pull/1
+* Update internal dependencies
+
+Potentially breaking changes:
+* Update formatting of returned errors
+** https://github.com/axelson/password-validator/pull/1
+
 # 0.1.2 (2017-07-31)
 
 * Add a missing typespec and this changelog
