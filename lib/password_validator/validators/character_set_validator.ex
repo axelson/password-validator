@@ -37,6 +37,10 @@ defmodule PasswordValidator.Validators.CharacterSetValidator do
     validate_password(string, config)
   end
 
+  defp validate_password(nil, %Config{} = config) do
+    validate_password("", config)
+  end
+
   @spec validate_password(String.t, %Config{}) :: :ok | {:error, nonempty_list()}
   defp validate_password(string, %Config{} = config) do
     counts = count_character_sets(string, config.allowed_special_characters)
@@ -67,10 +71,10 @@ defmodule PasswordValidator.Validators.CharacterSetValidator do
     :ok
   end
   def do_validate_character_set(character_set, count, [min, _]) when count < min do
-    {:error, "Not enough #{character_set} characters (got #{count} needed #{min})"}
+    {:error, "Not enough #{character_set} characters (only #{count} instead of at least #{min})"}
   end
   def do_validate_character_set(character_set, count, [_, max]) when count > max do
-    {:error, "Too many #{character_set} (got #{count} max was #{max})"}
+    {:error, "Too many #{character_set} (#{count} but maximum is #{max})"}
   end
   def do_validate_character_set(_, count, [min, max]) when min <= count >= max do
     :ok

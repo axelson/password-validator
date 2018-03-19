@@ -5,6 +5,12 @@ defmodule PasswordValidator.Validators.CharacterSetValidatorTest do
 
   doctest CharacterSetValidator
 
+  test "a nil password is treated as an empty password" do
+    opts = [character_set: [upper_case: 1]]
+    result = validate(nil, opts)
+    assert result == {:error, ["Not enough upper_case characters (only 0 instead of at least 1)"]}
+  end
+
   test "upper_case 2" do
     opts = [character_set: [upper_case: 2]]
     result = validate("String", opts)
