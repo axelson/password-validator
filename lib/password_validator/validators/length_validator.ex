@@ -22,10 +22,10 @@ defmodule PasswordValidator.Validators.LengthValidator do
       :ok
 
       iex> LengthValidator.validate("too_short", [length: [min: 10]])
-      {:error, ["String is too short. Got 9 needed 10"]}
+      {:error, ["String is too short. Only 9 characters instead of 10"]}
 
       iex> LengthValidator.validate("too_long", [length: [min: 3, max: 6]])
-      {:error, ["String is too long. Got 8 needed 6"]}
+      {:error, ["String is too long. 8 but maximum is 6"]}
   """
   def validate(string, opts) do
     config = Keyword.get(opts, :length, [])

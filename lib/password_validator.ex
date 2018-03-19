@@ -9,7 +9,7 @@ defmodule PasswordValidator do
       ...>   length: [max: 6],
       ...> ]
       iex> PasswordValidator.validate_password("too_long", opts)
-      {:error, ["String is too long. Got 8 needed 6"]}
+      {:error, ["String is too long. 8 but maximum is 6"]}
 
       iex> opts = [
       ...>   length: [min: 5, max: 30],
@@ -23,9 +23,9 @@ defmodule PasswordValidator do
       iex> changeset = Ecto.Changeset.change({%{password: "Simple_pass12345"}, %{}}, %{})
       iex> changeset = PasswordValidator.validate(changeset, :password, opts)
       iex> changeset.errors
-      [password: {"Too many special (got 1 max was 0)", []},
-      password: {"Too many numbers (got 5 max was 4)", []},
-      password: {"Not enough upper_case characters (got 1 needed 3)", []}]
+      [password: {"Too many special (1 but maximum is 0)", []},
+      password: {"Too many numbers (5 but maximum is 4)", []},
+      password: {"Not enough upper_case characters (only 1 instead of at least 3)", []}]
   """
 
   alias PasswordValidator.Validators
