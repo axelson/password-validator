@@ -81,7 +81,7 @@ defmodule PasswordValidator.Validators.CharacterSetValidator do
     {:error, "Too many #{character_set} (#{count} but maximum is #{max})"}
   end
 
-  def do_validate_character_set(_, count, [min, max]) when min <= count >= max do
+  def do_validate_character_set(_, count, [min, max]) when min <= count and count <= max do
     :ok
   end
 
