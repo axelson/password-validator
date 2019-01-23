@@ -64,7 +64,7 @@ defmodule PasswordValidator.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [
-      {:ecto, "~> 3.0"},
+      {:ecto, "~> 2.1 or ~> 3.0"},
       {:dialyxir, "1.0.0-rc.4", only: [:dev], runtime: false},
       {:ex_doc, ">= 0.0.0", only: :dev}
     ]

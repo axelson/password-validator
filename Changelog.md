@@ -1,3 +1,9 @@
+# 0.2.1 (2019-01-23)
+
+* Fix compilation warning on Elixir 1.8
+** https://github.com/axelson/password-validator/pull/3
+* Update dependencies
+
 # 0.2.0 (2018-03-19)
 
 * Handle the case when a nil password is passed in
