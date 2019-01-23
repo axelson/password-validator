@@ -75,7 +75,7 @@ Currently the only callback is `validate`. They can then be supplied as options 
 
 ## Installation
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
+`PasswordValidator` is [available in Hex](https://hex.pm/packages/password_validator), the package can be installed
 by adding `password_validator` to your list of dependencies in `mix.exs`:
 
 ```elixir
@@ -86,9 +86,7 @@ def deps do
 end
 ```
 
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at [https://hexdocs.pm/password_validator](https://hexdocs.pm/password_validator).
+The docs can be found at [https://hexdocs.pm/password_validator](https://hexdocs.pm/password_validator).
 
 ## Constraints
 
