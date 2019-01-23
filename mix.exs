@@ -10,18 +10,19 @@ defmodule PasswordValidator.Mixfile do
       description: description(),
       package: package(),
       elixir: "~> 1.5",
-      build_embedded: Mix.env == :prod,
-      start_permanent: Mix.env == :prod,
+      build_embedded: Mix.env() == :prod,
+      start_permanent: Mix.env() == :prod,
       deps: deps(),
       # dialyzer: [ flags: ["-Wunmatched_returns", :error_handling, :race_conditions, :underspecs]],
-      dialyzer: [ flags: ["-Wunmatched_returns", :error_handling, :race_conditions]],
+      dialyzer: [flags: ["-Wunmatched_returns", :error_handling, :race_conditions]],
 
       # Docs
       name: "Password Validator",
       docs: [
-        source_ref: "v#{@version}", main: "PasswordValidator",
+        source_ref: "v#{@version}",
+        main: "PasswordValidator",
         canonical: "https://hexdocs.pm/password_validator",
-        source_url: "https://github.com/axelson/password-validator",
+        source_url: "https://github.com/axelson/password-validator"
       ]
     ]
   end
@@ -65,7 +66,7 @@ defmodule PasswordValidator.Mixfile do
     [
       {:ecto, "~> 2.1"},
       {:dialyxir, "~> 0.5", only: [:dev], runtime: false},
-      {:ex_doc, ">= 0.0.0", only: :dev},
+      {:ex_doc, ">= 0.0.0", only: :dev}
     ]
   end
 end

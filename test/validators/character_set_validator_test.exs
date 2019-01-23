@@ -41,25 +41,35 @@ defmodule PasswordValidator.Validators.CharacterSetValidatorTest do
   end
 
   test "multiple errors" do
-    opts = [character_set: [
-      allowed_special_characters: "!-_",
-      special: 3,
-    ]]
+    opts = [
+      character_set: [
+        allowed_special_characters: "!-_",
+        special: 3
+      ]
+    ]
+
     result = validate("String_speci@l%", opts)
-    assert result == {:error, [
-      "Not enough special characters (only 1 instead of at least 3)",
-      "Invalid character(s) found. (@%)",
-    ]}
+
+    assert result ==
+             {:error,
+              [
+                "Not enough special characters (only 1 instead of at least 3)",
+                "Invalid character(s) found. (@%)"
+              ]}
   end
 
   test "with an invalid allowed_special_characters_config" do
-    opts = [character_set: [
-      allowed_special_characters: %{a: true},
-    ]]
-    error_message = "Invalid allowed_special_characters config. Got: %{a: true} when a binary (string) was expected"
+    opts = [
+      character_set: [
+        allowed_special_characters: %{a: true}
+      ]
+    ]
+
+    error_message =
+      "Invalid allowed_special_characters config. Got: %{a: true} when a binary (string) was expected"
+
     assert_raise RuntimeError, error_message, fn ->
       validate("str@", opts)
     end
   end
-
 end

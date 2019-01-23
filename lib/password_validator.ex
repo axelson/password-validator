@@ -32,29 +32,34 @@ defmodule PasswordValidator do
 
   @validators [
     Validators.LengthValidator,
-    Validators.CharacterSetValidator,
+    Validators.CharacterSetValidator
   ]
 
   @spec validate(%Ecto.Changeset{}, atom(), list()) :: %Ecto.Changeset{}
   def validate(changeset, field, opts \\ []) do
     password = Ecto.Changeset.get_field(changeset, field)
+
     case validate_password(password, opts) do
-      :ok -> changeset
+      :ok ->
+        changeset
+
       {:error, errors} ->
-        Enum.reduce(errors, changeset, fn (error, cset) ->
+        Enum.reduce(errors, changeset, fn error, cset ->
           Ecto.Changeset.add_error(cset, field, error)
         end)
     end
   end
 
-  @spec validate_password(String.t, list()) :: :ok | {:error, nonempty_list()}
+  @spec validate_password(String.t(), list()) :: :ok | {:error, nonempty_list()}
   def validate_password(password, opts \\ []) do
     results =
       validators(opts)
-      |> Enum.map(& run_validator(&1, password, opts))
+      |> Enum.map(&run_validator(&1, password, opts))
 
-    errors = for({:error, reason} <- results, do: reason)
-    |> List.flatten
+    errors =
+      for({:error, reason} <- results, do: reason)
+      |> List.flatten()
+
     if length(errors) > 0 do
       {:error, errors}
     else

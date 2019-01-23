@@ -21,18 +21,19 @@ defmodule PasswordValidatorTest do
     test "validate with two errors returns an invalid changeset" do
       opts = [
         length: [min: 9],
-        character_set: [numbers: 3],
+        character_set: [numbers: 3]
       ]
 
       changeset = validate("S3cr3t", opts)
 
       refute changeset.valid?
+
       assert errors_on(changeset) == %{
-        password: [
-          "Not enough numbers characters (only 2 instead of at least 3)",
-          "String is too short. Only 6 characters instead of 9",
-        ]
-      }
+               password: [
+                 "Not enough numbers characters (only 2 instead of at least 3)",
+                 "String is too short. Only 6 characters instead of 9"
+               ]
+             }
     end
   end
 
@@ -54,6 +55,7 @@ defmodule PasswordValidatorTest do
 
   test "validate_password with invalid options" do
     opts = [length: [min: 20, max: 10]]
+
     assert_raise RuntimeError, "Min length cannot be shorter than the max", fn ->
       PasswordValidator.validate_password("some password", opts)
     end
@@ -68,12 +70,12 @@ defmodule PasswordValidatorTest do
     result = PasswordValidator.validate_password("short", opts)
 
     assert result == {
-      :error,
-      [
-        "String is too short. Only 5 characters instead of 7",
-        "Not enough upper_case characters (only 0 instead of at least 1)",
-      ]
-    }
+             :error,
+             [
+               "String is too short. Only 5 characters instead of 7",
+               "Not enough upper_case characters (only 0 instead of at least 1)"
+             ]
+           }
   end
 
   test "validate_password works with a custom validator" do
@@ -85,13 +87,15 @@ defmodule PasswordValidatorTest do
       end
     end
 
-    result = PasswordValidator.validate_password("simple", additional_validators: [CustomValidator])
+    result =
+      PasswordValidator.validate_password("simple", additional_validators: [CustomValidator])
+
     assert result == {:error, ["Invalid password"]}
   end
 
   defp validate(password, opts \\ []) do
     {%{password: password}, password: :string}
-    |> Ecto.Changeset.change
+    |> Ecto.Changeset.change()
     |> PasswordValidator.validate(:password, opts)
   end
 
@@ -102,5 +106,4 @@ defmodule PasswordValidatorTest do
       end)
     end)
   end
-
 end
