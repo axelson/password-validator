@@ -56,7 +56,7 @@ defmodule PasswordValidatorTest do
   test "validate_password with invalid options" do
     opts = [length: [min: 20, max: 10]]
 
-    assert_raise RuntimeError, "Min length cannot be shorter than the max", fn ->
+    assert_raise RuntimeError, "Min length cannot be greater than the max", fn ->
       PasswordValidator.validate_password("some password", opts)
     end
   end
