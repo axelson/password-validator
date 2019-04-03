@@ -11,6 +11,10 @@ defmodule PasswordValidator.Validators.LengthValidatorTest do
     end
   end
 
+  test "a valid password" do
+    assert validate("a standard pass", length: [min: 3, max: 20]) == :ok
+  end
+
   test "a nil password is treated as an empty password" do
     assert validate(nil, length: [min: 1]) ==
              {:error, ["String is too short. Only 0 characters instead of 1"]}

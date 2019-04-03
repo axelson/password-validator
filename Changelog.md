@@ -1,3 +1,7 @@
+# Unreleased
+
+* Fix: Use a better exception message for invalid length validator configurations
+
 # 0.2.1 (2019-01-23)
 
 * Fix compilation warning on Elixir 1.8
