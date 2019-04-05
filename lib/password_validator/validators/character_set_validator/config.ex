@@ -1,4 +1,6 @@
 defmodule PasswordValidator.Validators.CharacterSetValidator.Config do
+  @moduledoc false
+
   defstruct [:upper_case, :lower_case, :numbers, :special, :allowed_special_characters]
   @type keys :: :upper_case | :lower_case | :numbers | :special
 

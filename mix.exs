@@ -19,11 +19,12 @@ defmodule PasswordValidator.Mixfile do
       # Docs
       name: "Password Validator",
       docs: [
-        source_ref: "v#{@version}",
         main: "PasswordValidator",
         canonical: "https://hexdocs.pm/password_validator",
-        source_url: "https://github.com/axelson/password-validator"
-      ]
+        nest_modules_by_prefix: [PasswordValidator.Validators]
+      ],
+      source_url: "https://github.com/axelson/password-validator",
+      homepage_url: "https://github.com/axelson/password-validator",
     ]
   end
 
