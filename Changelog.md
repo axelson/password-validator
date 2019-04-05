@@ -4,6 +4,7 @@
 * Feature: Add support for zxcvbn via https://github.com/techgaun/zxcvbn-elixir
   * Adds zxcvbn as a depdendency
   * Enabled by default (use `[zxcvbn: :disabled]` to disable**
+* Fix: Bump dev dependencies
 
 **Breaking Changes**
 * `PasswordValidator.Validators.ZXCVBNValidator` is enabled by default (with a
