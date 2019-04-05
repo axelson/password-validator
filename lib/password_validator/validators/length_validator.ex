@@ -6,15 +6,17 @@ defmodule PasswordValidator.Validators.LengthValidator do
   @behaviour PasswordValidator.Validator
 
   @doc """
-  Validate the
+  Validate the password by checking the length
 
-  Example config (min 5 characters, max 9 characters)
+  Example config (min 5 characters, max 9 characters):
+  ```
   [
     length: [
       min: 5,
       max: 9,
     ]
   ]
+  ```
 
   ## Examples
 

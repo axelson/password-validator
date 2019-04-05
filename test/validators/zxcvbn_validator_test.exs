@@ -5,6 +5,10 @@ defmodule PasswordValidator.Validators.ZXCVBNValidatorTest do
 
   doctest ZXCVBNValidator
 
+  test "when disabled returns :ok" do
+    assert validate("pass", zxcvbn: :disabled) == :ok
+  end
+
   test "invalid configuration" do
     assert_raise RuntimeError, "ZXCVBN min_score must be between 1 and 4, got -1", fn ->
       validate("a password", zxcvbn: [min_score: -1])
