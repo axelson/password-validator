@@ -1,6 +1,16 @@
 # Unreleased
 
 * Fix: Use a better exception message for invalid length validator configurations
+* Feature: Add support for zxcvbn via https://github.com/techgaun/zxcvbn-elixir
+  * Adds zxcvbn as a depdendency
+  * Enabled by default (use `[zxcvbn: :disabled]` to disable**
+
+**Breaking Changes**
+* `PasswordValidator.Validators.ZXCVBNValidator` is enabled by default (with a
+  minimum score of 2) which in many ways is more strict than the existing
+  validators.
+  * Pass `[zxcvbn: :disabled]` to disable ZXCVBNValidator. e.g.
+    `PasswordValidator.validate_password("some password", zxcvbn: :disabled)`
 
 # 0.2.1 (2019-01-23)
 

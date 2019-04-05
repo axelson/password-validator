@@ -2,15 +2,18 @@ defmodule PasswordValidatorTest do
   use ExUnit.Case, async: true
   doctest PasswordValidator
 
+  @weak_password "pass"
+  @strong_password "shine coin desert"
+
   describe "validate/3" do
     test "validate with a valid string returns a valid changeset" do
-      changeset = validate("Bob")
+      changeset = validate(@strong_password)
 
       assert changeset.valid?
     end
 
     test "validate with one error returns an invalid changeset" do
-      opts = [length: [max: 6]]
+      opts = [length: [max: 6], zxcvbn: :disabled]
 
       changeset = validate("Passw0rd", opts)
 
@@ -21,7 +24,8 @@ defmodule PasswordValidatorTest do
     test "validate with two errors returns an invalid changeset" do
       opts = [
         length: [min: 9],
-        character_set: [numbers: 3]
+        character_set: [numbers: 3],
+        zxcvbn: :disabled
       ]
 
       changeset = validate("S3cr3t", opts)
@@ -37,8 +41,9 @@ defmodule PasswordValidatorTest do
     end
   end
 
-  test "validate_password with no options always passes" do
-    assert :ok = PasswordValidator.validate_password("some password")
+  test "validate_password with no options passes with strong passwords but not weak ones" do
+    assert {:error, _} = PasswordValidator.validate_password(@weak_password)
+    assert :ok = PasswordValidator.validate_password(@strong_password)
   end
 
   test "validate_password length too short" do
@@ -64,7 +69,8 @@ defmodule PasswordValidatorTest do
   test "validate_password with errors on multiple validators" do
     opts = [
       length: [min: 7],
-      character_set: [upper_case: 1]
+      character_set: [upper_case: 1],
+      zxcvbn: [min_score: 1]
     ]
 
     result = PasswordValidator.validate_password("short", opts)
@@ -73,7 +79,8 @@ defmodule PasswordValidatorTest do
              :error,
              [
                "String is too short. Only 5 characters instead of 7",
-               "Not enough upper_case characters (only 0 instead of at least 1)"
+               "Not enough upper_case characters (only 0 instead of at least 1)",
+               "A word by itself is easy to guess"
              ]
            }
   end
@@ -88,7 +95,7 @@ defmodule PasswordValidatorTest do
     end
 
     result =
-      PasswordValidator.validate_password("simple", additional_validators: [CustomValidator])
+      PasswordValidator.validate_password(@strong_password, additional_validators: [CustomValidator])
 
     assert result == {:error, ["Invalid password"]}
   end

@@ -18,6 +18,13 @@ defmodule PasswordValidator do
       ...>     upper_case: [3, :infinity], # at least three upper case letters
       ...>     numbers: [0, 4],  # at most 4 numbers
       ...>     special: [0, 0],  # no special characters allowed
+      ...>   ],
+      ...>   zxcvbn: [
+      ...>     min_score: 2, # A number from 1-4. 1 being a simple password, and 4
+      ...>                   # being complex
+      ...>     user_inputs: ["bob@gmail.com"] # A list of inputs related to the
+      ...>                                    # user, such as name and emails (to verify that
+      ...>                                    # their password is not too similar to them)
       ...>   ]
       ...> ]
       iex> changeset = Ecto.Changeset.change({%{password: "Simple_pass12345"}, %{}}, %{})
@@ -32,7 +39,8 @@ defmodule PasswordValidator do
 
   @validators [
     Validators.LengthValidator,
-    Validators.CharacterSetValidator
+    Validators.CharacterSetValidator,
+    Validators.ZXCVBNValidator
   ]
 
   @spec validate(%Ecto.Changeset{}, atom(), list()) :: %Ecto.Changeset{}
