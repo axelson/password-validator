@@ -1,4 +1,4 @@
-# Unreleased
+# 0.3.0 (2019-04-05)
 
 * Fix: Use a better exception message for invalid length validator configurations
 * Feature: Add support for zxcvbn via https://github.com/techgaun/zxcvbn-elixir
