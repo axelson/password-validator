@@ -9,6 +9,9 @@ Validators:
 * CharacterSetValidator - validates the characters contained within the
   password, number of lower case, number of upper case, number of special
   characters, etc.
+* [ZXCVBNValidator](https://github.com/axelson/password-validator-zxcvbn) - Uses
+  Dropbox's [zxcvbn](https://github.com/dropbox/zxcvbn) algorithm to rate
+  passwords
 
 The primary use case is validating an `%Ecto.Changeset{}`
 
