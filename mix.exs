@@ -24,7 +24,7 @@ defmodule PasswordValidator.Mixfile do
         nest_modules_by_prefix: [PasswordValidator.Validators]
       ],
       source_url: "https://github.com/axelson/password-validator",
-      homepage_url: "https://github.com/axelson/password-validator",
+      homepage_url: "https://github.com/axelson/password-validator"
     ]
   end
 
