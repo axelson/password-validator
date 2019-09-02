@@ -1,3 +1,10 @@
+# Unreleased
+
+**Breaking Changes**
+* Extract `PasswordValidator.Validators.ZXCVBNValidator` to a separate (compatible) repository: https://github.com/axelson/password-validator-zxcvbn
+* Increased minimum Elixir version to 1.7
+  * Please file an issue if this is too high
+
 # 0.3.0 (2019-04-05)
 
 * Fix: Use a better exception message for invalid length validator configurations

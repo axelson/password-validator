@@ -18,13 +18,6 @@ defmodule PasswordValidator do
       ...>     upper_case: [3, :infinity], # at least three upper case letters
       ...>     numbers: [0, 4],  # at most 4 numbers
       ...>     special: [0, 0],  # no special characters allowed
-      ...>   ],
-      ...>   zxcvbn: [
-      ...>     min_score: 2, # A number from 1-4. 1 being a simple password, and 4
-      ...>                   # being complex
-      ...>     user_inputs: ["bob@gmail.com"] # A list of inputs related to the
-      ...>                                    # user, such as name and emails (to verify that
-      ...>                                    # their password is not too similar to them)
       ...>   ]
       ...> ]
       iex> changeset = Ecto.Changeset.change({%{password: "Simple_pass12345"}, %{}}, %{})
@@ -42,7 +35,7 @@ defmodule PasswordValidator do
     Validators.CharacterSetValidator
   ]
 
-  @spec validate(%Ecto.Changeset{}, atom(), list()) :: %Ecto.Changeset{}
+  @spec validate(Ecto.Changeset.t(), atom(), list()) :: Ecto.Changeset.t()
   def validate(changeset, field, opts \\ []) do
     password = Ecto.Changeset.get_field(changeset, field)
 
@@ -79,8 +72,14 @@ defmodule PasswordValidator do
   end
 
   defp validators(opts) do
-    opts
-    |> Keyword.get(:additional_validators, [])
+    additional_validators(opts)
     |> Enum.concat(@validators)
+  end
+
+  defp additional_validators(opts) do
+    case Keyword.get(opts, :additional_validators, []) do
+      validators when is_list(validators) -> validators
+      non_list -> raise "Expected a list of validators, instead received #{inspect(non_list)}"
+    end
   end
 end
