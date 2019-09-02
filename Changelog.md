@@ -1,5 +1,7 @@
 # Unreleased
 
+# 0.4.0 (2019-09-02)
+
 **Breaking Changes**
 * Extract `PasswordValidator.Validators.ZXCVBNValidator` to a separate (compatible) repository: https://github.com/axelson/password-validator-zxcvbn
 * Increased minimum Elixir version to 1.7
