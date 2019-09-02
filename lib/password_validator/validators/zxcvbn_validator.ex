@@ -20,7 +20,7 @@ defmodule PasswordValidator.Validators.ZXCVBNValidator do
       :ok
   """
   @impl PasswordValidator.Validator
-  def validate(string, opts \\ []) do
+  def validate(string, opts \\ []) when is_binary(string) do
     config = Keyword.get(opts, :zxcvbn, [])
     if config == :disabled do
       :ok
