@@ -12,7 +12,7 @@ defmodule PasswordValidatorTest do
     end
 
     test "validate with one error returns an invalid changeset" do
-      opts = [length: [max: 6], zxcvbn: :disabled]
+      opts = [length: [max: 6]]
 
       changeset = validate("Passw0rd", opts)
 
@@ -23,8 +23,7 @@ defmodule PasswordValidatorTest do
     test "validate with two errors returns an invalid changeset" do
       opts = [
         length: [min: 9],
-        character_set: [numbers: 3],
-        zxcvbn: :disabled
+        character_set: [numbers: 3]
       ]
 
       changeset = validate("S3cr3t", opts)
@@ -37,6 +36,12 @@ defmodule PasswordValidatorTest do
                  "String is too short. Only 6 characters instead of 9"
                ]
              }
+    end
+
+    test "validate with an invalid setting for additional validators raises an error" do
+      assert_raise RuntimeError, "Expected a list of validators, instead received :invalid", fn ->
+        validate("password", additional_validators: :invalid)
+      end
     end
   end
 
