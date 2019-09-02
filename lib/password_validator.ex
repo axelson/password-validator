@@ -39,8 +39,7 @@ defmodule PasswordValidator do
 
   @validators [
     Validators.LengthValidator,
-    Validators.CharacterSetValidator,
-    Validators.ZXCVBNValidator
+    Validators.CharacterSetValidator
   ]
 
   @spec validate(%Ecto.Changeset{}, atom(), list()) :: %Ecto.Changeset{}
