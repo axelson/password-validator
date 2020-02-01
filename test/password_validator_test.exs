@@ -4,6 +4,14 @@ defmodule PasswordValidatorTest do
 
   @strong_password "shine coin desert"
 
+  defmodule CustomValidator do
+    @behaviour PasswordValidator.Validator
+
+    def validate(_string, _opts) do
+      {:error, ["Invalid password"]}
+    end
+  end
+
   describe "validate/3" do
     test "validate with a valid string returns a valid changeset" do
       changeset = validate(@strong_password)
@@ -83,14 +91,6 @@ defmodule PasswordValidatorTest do
   end
 
   test "validate_password works with a custom validator" do
-    defmodule CustomValidator do
-      @behaviour PasswordValidator.Validator
-
-      def validate(_string, _opts) do
-        {:error, ["Invalid password"]}
-      end
-    end
-
     result =
       PasswordValidator.validate_password(@strong_password,
         additional_validators: [CustomValidator]
