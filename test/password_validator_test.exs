@@ -99,6 +99,14 @@ defmodule PasswordValidatorTest do
     assert result == {:error, ["Invalid password"]}
   end
 
+  test "README.md version is up to date" do
+    app = :password_validator
+    app_version = Application.spec(app, :vsn) |> to_string()
+    readme = File.read!("README.md")
+    [_, readme_version] = Regex.run(~r/{:#{app}, "(.+)"}/, readme)
+    assert Version.match?(app_version, readme_version)
+  end
+
   defp validate(password, opts \\ []) do
     {%{password: password}, password: :string}
     |> Ecto.Changeset.change()
