@@ -1,5 +1,10 @@
 # Unreleased
 
+# 0.4.1 (2020-11-11)
+
+* Bump dependencies used for development and testing
+* No user-visible changes
+
 # 0.4.0 (2019-09-02)
 
 **Breaking Changes**
