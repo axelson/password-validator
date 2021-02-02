@@ -1,5 +1,5 @@
 defmodule PasswordValidator.Validators.LengthValidatorTest do
-  use ExUnit.Case, async: true
+  use PasswordValidatorDataCase, async: true
   import PasswordValidator.Validators.LengthValidator, only: [validate: 2]
   alias PasswordValidator.Validators.LengthValidator
 
@@ -17,7 +17,11 @@ defmodule PasswordValidator.Validators.LengthValidatorTest do
 
   test "a nil password is treated as an empty password" do
     assert validate(nil, length: [min: 1]) ==
-             {:error, ["String is too short. Only 0 characters instead of 1"]}
+             {:error,
+              [
+                {"String is too short. Only %{length} characters instead of %{min}",
+                 [length: 0, min: 1]}
+              ]}
   end
 
   test "emoji characters are counted as one character" do

@@ -74,11 +74,15 @@ defmodule PasswordValidator.Validators.CharacterSetValidator do
   end
 
   def do_validate_character_set(character_set, count, [min, _]) when count < min do
-    {:error, "Not enough #{character_set} characters (only #{count} instead of at least #{min})"}
+    {:error,
+     {"Not enough %{character_set} characters (only %{count} instead of at least %{min})",
+      character_set: character_set, count: count, min: min}}
   end
 
   def do_validate_character_set(character_set, count, [_, max]) when count > max do
-    {:error, "Too many #{character_set} (#{count} but maximum is #{max})"}
+    {:error,
+     {"Too many %{character_set} (%{count} but maximum is %{max})",
+      character_set: character_set, count: count, max: max}}
   end
 
   def do_validate_character_set(_, count, [min, max]) when min <= count and count <= max do
@@ -93,7 +97,9 @@ defmodule PasswordValidator.Validators.CharacterSetValidator do
     do: :ok
 
   defp validate_other(%{other: other_characters}) when length(other_characters) > 0,
-    do: {:error, "Invalid character(s) found. (#{other_characters})"}
+    do:
+      {:error,
+       {"Invalid character(s) found. (%{other_characters})", other_characters: other_characters}}
 
   @spec count_character_sets(String.t(), String.t() | nil, map()) :: map()
   defp count_character_sets(string, special_characters, counts \\ @initial_counts)

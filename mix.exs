@@ -13,6 +13,7 @@ defmodule PasswordValidator.Mixfile do
       build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
       deps: deps(),
+      elixirc_paths: elixirc_paths(Mix.env()),
       # dialyzer: [ flags: ["-Wunmatched_returns", :error_handling, :race_conditions, :underspecs]],
       dialyzer: [flags: ["-Wunmatched_returns", :error_handling, :race_conditions]],
 
@@ -54,6 +55,10 @@ defmodule PasswordValidator.Mixfile do
     ]
   end
 
+  # Specifies which paths to compile per environment.
+  defp elixirc_paths(:test), do: ["lib", "test"]
+  defp elixirc_paths(_), do: ["lib"]
+
   # Dependencies can be Hex packages:
   #
   #   {:my_dep, "~> 0.3.0"}
@@ -67,7 +72,8 @@ defmodule PasswordValidator.Mixfile do
     [
       {:ecto, "~> 2.1 or ~> 3.0"},
       {:dialyxir, "~> 1.0", only: [:dev], runtime: false},
-      {:ex_doc, ">= 0.0.0", only: :dev}
+      {:ex_doc, ">= 0.0.0", only: :dev},
+      {:gettext, ">= 0.0.0", only: :test}
     ]
   end
 end

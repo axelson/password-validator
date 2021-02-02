@@ -1,5 +1,6 @@
 defmodule PasswordValidatorTest do
-  use ExUnit.Case, async: true
+  use PasswordValidatorDataCase, async: true
+
   doctest PasswordValidator
 
   @strong_password "shine coin desert"
@@ -56,13 +57,13 @@ defmodule PasswordValidatorTest do
   test "validate_password length too short" do
     opts = [length: [min: 8]]
     assert {:error, reasons} = PasswordValidator.validate_password("short", opts)
-    assert "String is too short. Only 5 characters instead of 8" in reasons
+    assert "String is too short. Only 5 characters instead of 8" in errors_on(reasons)
   end
 
   test "validate_password length too long" do
     opts = [length: [max: 6]]
     assert {:error, reasons} = PasswordValidator.validate_password("way too long", opts)
-    assert "String is too long. 12 but maximum is 6" in reasons
+    assert "String is too long. 12 but maximum is 6" in errors_on(reasons)
   end
 
   test "validate_password with invalid options" do
@@ -79,15 +80,13 @@ defmodule PasswordValidatorTest do
       character_set: [upper_case: 1]
     ]
 
-    result = PasswordValidator.validate_password("short", opts)
+    assert {:error, result} = PasswordValidator.validate_password("short", opts)
 
-    assert result == {
-             :error,
+    assert errors_on(result) ==
              [
                "String is too short. Only 5 characters instead of 7",
                "Not enough upper_case characters (only 0 instead of at least 1)"
              ]
-           }
   end
 
   test "validate_password works with a custom validator" do
@@ -111,13 +110,5 @@ defmodule PasswordValidatorTest do
     {%{password: password}, password: :string}
     |> Ecto.Changeset.change()
     |> PasswordValidator.validate(:password, opts)
-  end
-
-  defp errors_on(changeset) do
-    Ecto.Changeset.traverse_errors(changeset, fn {message, opts} ->
-      Enum.reduce(opts, message, fn {key, value}, acc ->
-        String.replace(acc, "%{#{key}}", to_string(value))
-      end)
-    end)
   end
 end

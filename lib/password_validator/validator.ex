@@ -11,7 +11,16 @@ defmodule PasswordValidator.Validator do
 
   @spec return_errors_or_ok(list()) :: :ok | {:error, nonempty_list()}
   def return_errors_or_ok(results) do
-    errors = for {:error, reason} <- results, do: reason
+    errors =
+      results
+      |> Enum.reject(&(&1 == :ok))
+      |> Enum.map(fn
+        {:error, message, keys} ->
+          {message, keys}
+
+        {:error, reason} ->
+          reason
+      end)
 
     case errors do
       [] -> :ok

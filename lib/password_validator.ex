@@ -9,7 +9,7 @@ defmodule PasswordValidator do
       ...>   length: [max: 6],
       ...> ]
       iex> PasswordValidator.validate_password("too_long", opts)
-      {:error, ["String is too long. 8 but maximum is 6"]}
+      {:error, [{"String is too long. %{length} but maximum is %{max}", length: 8, max: 6}]}
 
       iex> opts = [
       ...>   length: [min: 5, max: 30],
@@ -23,9 +23,9 @@ defmodule PasswordValidator do
       iex> changeset = Ecto.Changeset.change({%{password: "Simple_pass12345"}, %{}}, %{})
       iex> changeset = PasswordValidator.validate(changeset, :password, opts)
       iex> changeset.errors
-      [password: {"Too many special (1 but maximum is 0)", []},
-      password: {"Too many numbers (5 but maximum is 4)", []},
-      password: {"Not enough upper_case characters (only 1 instead of at least 3)", []}]
+      [password: {"Too many %{character_set} (%{count} but maximum is %{max})", character_set: :special, count: 1, max: 0},
+      password: {"Too many %{character_set} (%{count} but maximum is %{max})", character_set: :numbers, count: 5, max: 4},
+      password: {"Not enough %{character_set} characters (only %{count} instead of at least %{min})", character_set: :upper_case, count: 1, min: 3}]
   """
 
   alias PasswordValidator.Validators
@@ -44,8 +44,12 @@ defmodule PasswordValidator do
         changeset
 
       {:error, errors} ->
-        Enum.reduce(errors, changeset, fn error, cset ->
-          Ecto.Changeset.add_error(cset, field, error)
+        Enum.reduce(errors, changeset, fn
+          {message, keys}, cset ->
+            Ecto.Changeset.add_error(cset, field, message, keys)
+
+          error, cset ->
+            Ecto.Changeset.add_error(cset, field, error)
         end)
     end
   end

@@ -1,5 +1,5 @@
 defmodule PasswordValidator.Validators.CharacterSetValidatorTest do
-  use ExUnit.Case, async: true
+  use PasswordValidatorDataCase, async: true
   import PasswordValidator.Validators.CharacterSetValidator, only: [validate: 2]
   alias PasswordValidator.Validators.CharacterSetValidator
 
@@ -7,14 +7,20 @@ defmodule PasswordValidator.Validators.CharacterSetValidatorTest do
 
   test "a nil password is treated as an empty password" do
     opts = [character_set: [upper_case: 1]]
-    result = validate(nil, opts)
-    assert result == {:error, ["Not enough upper_case characters (only 0 instead of at least 1)"]}
+    assert {:error, result} = validate(nil, opts)
+
+    assert errors_on(result) == [
+             "Not enough upper_case characters (only 0 instead of at least 1)"
+           ]
   end
 
   test "upper_case 2" do
     opts = [character_set: [upper_case: 2]]
-    result = validate("String", opts)
-    assert result == {:error, ["Not enough upper_case characters (only 1 instead of at least 2)"]}
+    assert {:error, result} = validate("String", opts)
+
+    assert errors_on(result) == [
+             "Not enough upper_case characters (only 1 instead of at least 2)"
+           ]
   end
 
   test "upper_case [0, 2]" do
@@ -36,8 +42,11 @@ defmodule PasswordValidator.Validators.CharacterSetValidatorTest do
 
   test "allowed_special_characters when the string contains non-allowed characters" do
     opts = [character_set: [allowed_special_characters: "!-_"]]
-    result = validate("String_speci@l%", opts)
-    assert result == {:error, ["Invalid character(s) found. (@%)"]}
+    assert {:error, result} = validate("String_speci@l%", opts)
+
+    assert errors_on(result) == [
+             "Invalid character(s) found. (@%)"
+           ]
   end
 
   test "multiple errors" do
@@ -48,14 +57,12 @@ defmodule PasswordValidator.Validators.CharacterSetValidatorTest do
       ]
     ]
 
-    result = validate("String_speci@l%", opts)
+    assert {:error, result} = validate("String_speci@l%", opts)
 
-    assert result ==
-             {:error,
-              [
-                "Not enough special characters (only 1 instead of at least 3)",
-                "Invalid character(s) found. (@%)"
-              ]}
+    assert errors_on(result) == [
+             "Not enough special characters (only 1 instead of at least 3)",
+             "Invalid character(s) found. (@%)"
+           ]
   end
 
   test "with an invalid allowed_special_characters_config" do
