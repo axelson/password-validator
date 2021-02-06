@@ -17,7 +17,9 @@ defmodule PasswordValidator.Validators.LengthValidatorTest do
 
   test "a nil password is treated as an empty password" do
     assert validate(nil, length: [min: 1]) ==
-             {:error, ["String is too short. Only 0 characters instead of 1"]}
+    {:error, [{"String is too short. Only 0 characters instead of 1",
+               validator: LengthValidator,
+              error_type: :too_short}]}
   end
 
   test "emoji characters are counted as one character" do

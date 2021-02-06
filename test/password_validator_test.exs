@@ -28,6 +28,38 @@ defmodule PasswordValidatorTest do
       assert errors_on(changeset) == %{password: ["String is too long. 8 but maximum is 6"]}
     end
 
+    test "validate too few with custom error message" do
+      opts = [
+        length: [
+          min: 9,
+          max: 20,
+          messages: [too_short: "Too few chars", too_long: "Too many chars"]
+        ]
+      ]
+
+      changeset = validate("Password", opts)
+
+      assert errors_on(changeset) == %{
+               password: ["Too few chars"]
+             }
+    end
+
+    test "validate too many with custom error message" do
+      opts = [
+        length: [
+          min: 6,
+          max: 12,
+          messages: [too_short: "Too few chars", too_long: "Too many chars"]
+        ]
+      ]
+
+      changeset = validate("PasswordIsLong!", opts)
+
+      assert errors_on(changeset) == %{
+               password: ["Too many chars"]
+             }
+    end
+
     test "validate with two errors returns an invalid changeset" do
       opts = [
         length: [min: 9],
@@ -37,6 +69,12 @@ defmodule PasswordValidatorTest do
       changeset = validate("S3cr3t", opts)
 
       refute changeset.valid?
+
+      assert hd(changeset.errors) ==
+               {:password,
+                {"Not enough numbers characters (only 2 instead of at least 3)",
+                 validator: PasswordValidator.Validators.CharacterSetValidator,
+                 error_type: :too_few_numbers}}
 
       assert errors_on(changeset) == %{
                password: [
@@ -99,6 +137,13 @@ defmodule PasswordValidatorTest do
     assert result == {:error, ["Invalid password"]}
   end
 
+  test "validate/3 works with a custom validator" do
+    changeset = validate(@strong_password, additional_validators: [CustomValidator])
+
+    assert changeset.errors == [password: {"Invalid password", []}]
+    refute changeset.valid?
+  end
+
   test "README.md version is up to date" do
     app = :password_validator
     app_version = Application.spec(app, :vsn) |> to_string()
@@ -106,6 +151,10 @@ defmodule PasswordValidatorTest do
     [_, readme_version] = Regex.run(~r/{:#{app}, "(.+)"}/, readme)
     assert Version.match?(app_version, readme_version)
   end
+
+  # test "README.md doctests" do
+  #   Mix.Task.run("docception", ["README.md"])
+  # end
 
   defp validate(password, opts \\ []) do
     {%{password: password}, password: :string}

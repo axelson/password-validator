@@ -1,5 +1,13 @@
 # Unreleased
 
+**Potentially Breaking Changes**
+* Return additional information with the errors on changesets
+  * This generally shouldn't break anything, but if the code is using
+    `Ecto.Changeset.traverse_errors/2` and looking at the `additional_info` it could.
+
+Improvements:
+* Add the ability to customize error messages by passing `messages` to a validator
+
 # 0.4.1 (2020-11-11)
 
 * Bump dependencies used for development and testing

@@ -23,9 +23,18 @@ defmodule PasswordValidator do
       iex> changeset = Ecto.Changeset.change({%{password: "Simple_pass12345"}, %{}}, %{})
       iex> changeset = PasswordValidator.validate(changeset, :password, opts)
       iex> changeset.errors
-      [password: {"Too many special (1 but maximum is 0)", []},
-      password: {"Too many numbers (5 but maximum is 4)", []},
-      password: {"Not enough upper_case characters (only 1 instead of at least 3)", []}]
+      [password: {"Too many special (1 but maximum is 0)", [
+        {:validator, PasswordValidator.Validators.CharacterSetValidator},
+        {:error_type, :too_many_special}
+      ]},
+      password: {"Too many numbers (5 but maximum is 4)", [
+        {:validator, PasswordValidator.Validators.CharacterSetValidator},
+        {:error_type, :too_many_numbers}
+      ]},
+      password: {"Not enough upper_case characters (only 1 instead of at least 3)", [
+        {:validator, PasswordValidator.Validators.CharacterSetValidator},
+        {:error_type, :too_few_upper_case}
+      ]}]
   """
 
   alias PasswordValidator.Validators
@@ -39,19 +48,22 @@ defmodule PasswordValidator do
   def validate(changeset, field, opts \\ []) do
     password = Ecto.Changeset.get_field(changeset, field)
 
-    case validate_password(password, opts) do
+    case do_validate(password, opts) do
       :ok ->
         changeset
 
       {:error, errors} ->
-        Enum.reduce(errors, changeset, fn error, cset ->
-          Ecto.Changeset.add_error(cset, field, error)
+        Enum.reduce(errors, changeset, fn
+          error, cset when is_binary(error) ->
+            Ecto.Changeset.add_error(cset, field, error)
+
+          {error_message, additional_info}, cset when is_binary(error_message) ->
+            Ecto.Changeset.add_error(cset, field, error_message, additional_info)
         end)
     end
   end
 
-  @spec validate_password(String.t(), list()) :: :ok | {:error, nonempty_list()}
-  def validate_password(password, opts \\ []) do
+  defp do_validate(password, opts) do
     results =
       validators(opts)
       |> Enum.map(&run_validator(&1, password, opts))
@@ -67,8 +79,30 @@ defmodule PasswordValidator do
     end
   end
 
+  @spec validate_password(String.t(), list()) :: :ok | {:error, nonempty_list()}
+  def validate_password(password, opts \\ []) do
+    results =
+      validators(opts)
+      |> Enum.map(&run_validator(&1, password, opts))
+
+    errors =
+      for {:error, errors} <- results do
+        Enum.map(errors, fn
+          {error_message, _} when is_binary(error_message) -> error_message
+          error_message when is_binary(error_message) -> error_message
+        end)
+      end
+      |> List.flatten()
+
+    if length(errors) > 0 do
+      {:error, errors}
+    else
+      :ok
+    end
+  end
+
   defp run_validator(validator, password, opts) do
-    apply(validator, :validate, [password, opts])
+    validator.validate(password, opts)
   end
 
   defp validators(opts) do

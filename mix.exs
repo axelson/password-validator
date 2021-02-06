@@ -67,6 +67,8 @@ defmodule PasswordValidator.Mixfile do
     [
       {:ecto, "~> 2.1 or ~> 3.0"},
       {:dialyxir, "~> 1.0", only: [:dev], runtime: false},
+      #{:docception, "~> 0.3.6", only: [:test]},
+      {:docception, github: "axelson/docception", branch: "print-num-results", only: [:test]},
       {:ex_doc, ">= 0.0.0", only: :dev}
     ]
   end
