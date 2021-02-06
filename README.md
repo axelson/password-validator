@@ -100,7 +100,7 @@ PasswordValidator can also be run directly on a String:
 
 ```
 iex> opts = [
-...>   length: [max: 7],
+...>   length: [max: 6],
 ...> ]
 iex> PasswordValidator.validate_password("too_long", opts)
 {:error, ["String is too long. 8 but maximum is 6"]}
