@@ -113,7 +113,7 @@ defmodule PasswordValidator.Validators.CharacterSetValidator do
     raise "Invalid character set config. (#{inspect(config)})"
   end
 
-  defp validate_other(%{other: other_characters}) when length(other_characters) == 0,
+  defp validate_other(%{other: []}),
     do: {:other, :ok}
 
   defp validate_other(%{other: other_characters}) when length(other_characters) > 0,
