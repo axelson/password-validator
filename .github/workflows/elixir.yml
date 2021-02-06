@@ -38,7 +38,7 @@ jobs:
           ~/.mix
           _build
           priv/plts
-        key: ${{ matrix.otp }}-${{ matrix.elixir }}-static_analysis-build
+        key: ${{ matrix.otp }}-${{ matrix.elixir }}
     - name: Run Tests
       run: mix test
     - name: Run docception
