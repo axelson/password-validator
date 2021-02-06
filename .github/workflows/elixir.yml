@@ -46,4 +46,4 @@ jobs:
     - name: Credo
       run: MIX_ENV=test mix credo --strict
     - name: Dialyzer
-      run: mix dialyzer --halt-exit-status
+      run: MIX_ENV=test mix dialyzer --halt-exit-status
