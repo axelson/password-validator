@@ -44,6 +44,6 @@ jobs:
     - name: Run docception
       run: MIX_ENV=test mix docception README.md
     - name: Credo
-      run: mix credo --strict
+      run: MIX_ENV=test mix credo --strict
     - name: Dialyzer
       run: mix dialyzer --halt-exit-status
