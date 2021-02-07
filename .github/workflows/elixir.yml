@@ -46,7 +46,7 @@ jobs:
     - name: check build2
       run: |
         pwd
-        ls
+        ls _build
     - name: Run Tests
       run: mix test
     - name: Run docception
