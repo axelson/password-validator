@@ -67,7 +67,14 @@ defmodule PasswordValidator.Validators.LengthValidator do
     do: raise("min must be an integer")
 
   defp valid_min_length?(length, min, custom_messages) when length < min,
-    do: error("String is too short. Only #{length} characters instead of #{min}", :too_short, custom_messages)
+    do:
+      error(
+        "String is too short. Only %{length} characters instead of %{min}",
+        :too_short,
+        custom_messages,
+        length: length,
+        min: min
+      )
 
   defp valid_min_length?(_, _, _),
     do: :ok
@@ -79,14 +86,21 @@ defmodule PasswordValidator.Validators.LengthValidator do
     do: raise("max must be an integer")
 
   defp valid_max_length?(length, max, custom_messages) when length > max,
-    do: error("String is too long. #{length} but maximum is #{max}", :too_long, custom_messages)
+    do:
+      error(
+        "String is too long. %{length} but maximum is %{max}",
+        :too_long,
+        custom_messages,
+        length: length,
+        max: max
+      )
 
   defp valid_max_length?(_, _, _),
     do: :ok
 
-  defp error(message, error_type, custom_messages) do
+  defp error(message, error_type, custom_messages, keys) do
     message = Keyword.get(custom_messages, error_type, message)
     additional_info = [validator: __MODULE__, error_type: error_type]
-    {:error, {message, additional_info}}
+    {:error, {message, additional_info, keys}}
   end
 end
