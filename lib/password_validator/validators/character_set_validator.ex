@@ -53,17 +53,17 @@ defmodule PasswordValidator.Validators.CharacterSetValidator do
     @character_sets
     |> Enum.map(&validate_character_set(&1, counts, config))
     |> Enum.concat([validate_other(counts)])
-    |> Enum.map(& interpret_additional_info(&1, config.custom_messages))
+    |> Enum.map(&interpret_additional_info(&1, config.custom_messages))
     |> PasswordValidator.Validator.return_errors_or_ok()
   end
 
   def interpret_additional_info({_, :ok}, _custom_messages), do: :ok
 
-  def interpret_additional_info({type, {:error, sub_type, reason}}, custom_messages) do
+  def interpret_additional_info({type, {:error, sub_type, reason, keys}}, custom_messages) do
     error_type = error_type(type, sub_type)
     reason = Keyword.get(custom_messages, error_type, reason)
     additional_info = [validator: __MODULE__, error_type: error_type]
-    {:error, {reason, additional_info}}
+    {:error, {reason, additional_info, keys}}
   end
 
   defp error_type(:other, :invalid), do: :invalid_special_characters
@@ -98,11 +98,14 @@ defmodule PasswordValidator.Validators.CharacterSetValidator do
   end
 
   def do_validate_character_set(character_set, count, [min, _]) when count < min do
-    {:error, :too_few, "Not enough #{character_set} characters (only #{count} instead of at least #{min})"}
+    {:error, :too_few,
+     "Not enough %{character_set} characters (only %{count} instead of at least %{min})",
+     character_set: character_set, count: count, min: min}
   end
 
   def do_validate_character_set(character_set, count, [_, max]) when count > max do
-    {:error, :too_many, "Too many #{character_set} (#{count} but maximum is #{max})"}
+    {:error, :too_many, "Too many %{character_set} (%{count} but maximum is %{max})",
+     character_set: character_set, count: count, max: max}
   end
 
   def do_validate_character_set(_, count, [min, max]) when min <= count and count <= max do
@@ -117,7 +120,10 @@ defmodule PasswordValidator.Validators.CharacterSetValidator do
     do: {:other, :ok}
 
   defp validate_other(%{other: other_characters}) when length(other_characters) > 0,
-    do: {:other, {:error, :invalid, "Invalid character(s) found. (#{other_characters})"}}
+    do:
+      {:other,
+       {:error, :invalid, "Invalid character(s) found. (%{other_characters})",
+        other_characters: other_characters}}
 
   @spec count_character_sets(String.t(), String.t() | nil, map()) :: map()
   defp count_character_sets(string, special_characters, counts \\ @initial_counts)
