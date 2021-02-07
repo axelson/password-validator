@@ -54,19 +54,13 @@ defmodule PasswordValidator.Mixfile do
     ]
   end
 
-  # Dependencies can be Hex packages:
-  #
-  #   {:my_dep, "~> 0.3.0"}
-  #
-  # Or git/path repositories:
-  #
-  #   {:my_dep, git: "https://github.com/elixir-lang/my_dep.git", tag: "0.1.0"}
-  #
-  # Type "mix help deps" for more examples and options
   defp deps do
     [
       {:ecto, "~> 2.1 or ~> 3.0"},
-      {:dialyxir, "~> 1.0", only: [:dev], runtime: false},
+      {:dialyxir, "~> 1.0", only: [:dev, :test], runtime: false},
+      {:credo, "~> 1.1", only: [:dev, :test], runtime: false},
+      #{:docception, "~> 0.3.6", only: [:test]},
+      {:docception, github: "axelson/docception", branch: "print-num-results", only: [:test]},
       {:ex_doc, ">= 0.0.0", only: :dev}
     ]
   end

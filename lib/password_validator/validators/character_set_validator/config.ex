@@ -1,7 +1,15 @@
 defmodule PasswordValidator.Validators.CharacterSetValidator.Config do
   @moduledoc false
 
-  defstruct [:upper_case, :lower_case, :numbers, :special, :allowed_special_characters]
+  defstruct [
+    :upper_case,
+    :lower_case,
+    :numbers,
+    :special,
+    :allowed_special_characters,
+    :custom_messages
+  ]
+
   @type keys :: :upper_case | :lower_case | :numbers | :special
 
   alias PasswordValidator.Validators.CharacterSetValidator.Config
@@ -15,7 +23,8 @@ defmodule PasswordValidator.Validators.CharacterSetValidator.Config do
       upper_case: character_set_config(config, :upper_case),
       numbers: character_set_config(config, :numbers),
       special: character_set_config(config, :special),
-      allowed_special_characters: allowed_special_characters_config(config)
+      allowed_special_characters: allowed_special_characters_config(config),
+      custom_messages: Keyword.get(config, :messages, [])
     }
   end
 
