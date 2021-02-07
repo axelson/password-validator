@@ -33,7 +33,7 @@ jobs:
     - name: check build
       run: |
         pwd
-        ls _build
+        ls
     - name: Cache build artifacts
       uses: actions/cache@v2
       with:
@@ -46,7 +46,7 @@ jobs:
     - name: check build2
       run: |
         pwd
-        ls _build
+        ls
     - name: Run Tests
       run: mix test
     - name: Run docception
