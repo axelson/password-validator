@@ -1,5 +1,11 @@
 # PasswordValidator
 
+[![Module Version](https://img.shields.io/hexpm/v/password_validator.svg)](https://hex.pm/packages/password_validator)
+[![Hex Docs](https://img.shields.io/badge/hex-docs-lightgreen.svg)](https://hexdocs.pm/password_validator/)
+[![Total Download](https://img.shields.io/hexpm/dt/password_validator.svg)](https://hex.pm/packages/password_validator)
+[![License](https://img.shields.io/hexpm/l/password-validator.svg)](https://github.com/axelson/password-validator/blob/master/LICENSE.md)
+[![Last Updated](https://img.shields.io/github/last-commit/axelson/password-validator.svg)](https://github.com/axelson/password-validator/commits/master)
+
 PasswordValidator is a library to validate passwords, makes sense doesn't it? By
 default two validators are built in, but it is also possible to create your own
 custom validator for more advanced usage.
@@ -130,3 +136,17 @@ Currently the only callback is `validate`. They can then be supplied as options 
 To run the default test suite, run `mix test`
 
 PR's and discussions welcome!
+
+## Copyright and License
+
+Copyright (c) 2017 Jason Axelson
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at [http://www.apache.org/licenses/LICENSE-2.0](http://www.apache.org/licenses/LICENSE-2.0)
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
