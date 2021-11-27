@@ -53,6 +53,7 @@ jobs:
       run: MIX_ENV=test mix credo --strict
     - name: Dialyzer
       run: MIX_ENV=test mix dialyzer --halt-exit-status
-   - uses: github/codeql-action/upload-sarif@v1
+    - name: Upload Sarif
+      uses: github/codeql-action/upload-sarif@v1
       with:
         sarif_file: report.json
