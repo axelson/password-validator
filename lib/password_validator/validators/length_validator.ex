@@ -60,10 +60,6 @@ defmodule PasswordValidator.Validators.LengthValidator do
     |> PasswordValidator.Validator.return_errors_or_ok()
   end
 
-  defp hi do
-    SomeFoo.bar()
-  end
-
   defp valid_min_length?(_, :infinity, _custom_messages),
     do: :ok
 
