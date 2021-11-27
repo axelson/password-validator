@@ -41,11 +41,11 @@ defmodule PasswordValidator.Mixfile do
 
   defp deps do
     [
-      {:mix_machine, "~> 0.1.0"},
+      {:mix_machine, "~> 0.1.0", only: [:test]},
       {:ecto, "~> 2.1 or ~> 3.0"},
       {:dialyxir, "~> 1.0", only: [:dev, :test], runtime: false},
       {:credo, "~> 1.1", only: [:dev, :test], runtime: false},
-      {:docception, github: "evnu/docception", branch: "master", only: [:test]},
+      {:docception, "~> 0.4.1", only: [:test]},
       {:ex_doc, ">= 0.0.0", only: :dev, runtime: false}
     ]
   end
