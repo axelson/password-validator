@@ -45,7 +45,7 @@ jobs:
     - name: Compile Deps
       run: mix deps.compile
     - name: Compile
-      run: mix compile.machine --warnings-as-errors
+      run: mix compile.machine
     - name: Run Tests
       run: mix test
     - name: Run docception
