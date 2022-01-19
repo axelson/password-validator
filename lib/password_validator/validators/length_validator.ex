@@ -40,6 +40,9 @@ defmodule PasswordValidator.Validators.LengthValidator do
     validate_password(string, min_length, max_length, custom_messages)
   end
 
+  # defp hi do
+  # end
+
   @spec validate_password(String.t(), integer(), integer() | :infinity, map()) ::
           :ok | {:error, nonempty_list()}
   defp validate_password(_, min_length, max_length, _)
@@ -67,7 +70,12 @@ defmodule PasswordValidator.Validators.LengthValidator do
     do: raise("min must be an integer")
 
   defp valid_min_length?(length, min, custom_messages) when length < min,
-    do: error("String is too short. Only #{length} characters instead of #{min}", :too_short, custom_messages)
+    do:
+      error(
+        "String is too short. Only #{length} characters instead of #{min}",
+        :too_short,
+        custom_messages
+      )
 
   defp valid_min_length?(_, _, _),
     do: :ok
