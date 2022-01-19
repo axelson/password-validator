@@ -42,7 +42,9 @@ defmodule PasswordValidator.Mixfile do
 
   defp deps do
     [
-      {:mix_machine, "~> 0.1.0", only: [:test]},
+      # {:mix_machine, "~> 0.1.0", only: [:test]},
+      {:mix_machine, github: "axelson/mix_machine", branch: "debug", only: [:test]},
+      # {:mix_machine, path: "~/dev/forks/mix_machine", only: [:test]},
       {:ecto, "~> 2.1 or ~> 3.0"},
       {:dialyxir, "~> 1.0", only: [:dev, :test], runtime: false},
       {:credo, "~> 1.1", only: [:dev, :test], runtime: false},
