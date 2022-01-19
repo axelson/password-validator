@@ -40,8 +40,8 @@ defmodule PasswordValidator.Validators.LengthValidator do
     validate_password(string, min_length, max_length, custom_messages)
   end
 
-  defp hi do
-  end
+  # defp hi do
+  # end
 
   @spec validate_password(String.t(), integer(), integer() | :infinity, map()) ::
           :ok | {:error, nonempty_list()}
