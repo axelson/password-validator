@@ -58,9 +58,11 @@ jobs:
     - name: Formatting
       run: MIX_ENV=test mix format --check-formatted
       if: always()
-    - name: Dialyzer
-      run: MIX_ENV=test mix dialyzer --halt-exit-status
-      if: always()
+    - run: ls
+    - run: find . -name "report.json"
+    # - name: Dialyzer
+    #   run: MIX_ENV=test mix dialyzer --halt-exit-status
+    #   if: always()
     - name: Upload Sarif
       uses: github/codeql-action/upload-sarif@v1
       if: always()
