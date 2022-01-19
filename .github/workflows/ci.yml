@@ -28,14 +28,25 @@ jobs:
         otp-version: ${{matrix.otp}}
         elixir-version: ${{matrix.elixir}}
         disable_problem_matchers: true
-    - name: Cache build artifacts
+    - name: Cache deps
       uses: actions/cache@v2
       with:
         path: |
           ~/.hex
           ~/.mix
-          _build
           deps
+        key: ${{ runner.os }}-${{ matrix.elixir }}-${{ matrix.otp }}-mix-${{ hashFiles('**/mix.lock') }}
+        restoreCache: ${{ runner.os }}-${{ matrix.elixir }}-${{ matrix.otp }}-mix-
+    - name: Set the config cache value
+      id: step_one
+      run: |
+        echo "action_state=${mix config.hash}" >> $GITHUB_EN
+    - run: env
+    - name: Cache build artifacts
+      uses: actions/cache@v2
+      with:
+        path: |
+          _build
           priv/plts
         key: ${{ runner.os }}-mix-${{ hashFiles('**/mix.lock') }}
     - name: Install Dependencies

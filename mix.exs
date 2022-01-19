@@ -12,6 +12,7 @@ defmodule PasswordValidator.Mixfile do
       elixir: "~> 1.7",
       build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
+      aliases: aliases(),
       package: package(),
       deps: deps(),
       docs: docs(),
@@ -66,6 +67,16 @@ defmodule PasswordValidator.Mixfile do
       homepage_url: @source_url,
       formatters: ["html"],
       nest_modules_by_prefix: [PasswordValidator.Validators]
+    ]
+  end
+
+  defp aliases do
+    [
+      "config.hash": fn _ ->
+        :crypto.hash(:sha512, Mix.Task.run("loadconfig") |> :erlang.term_to_binary())
+        |> Base.encode64()
+        |> IO.puts()
+      end
     ]
   end
 end
