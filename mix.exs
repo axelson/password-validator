@@ -15,6 +15,7 @@ defmodule PasswordValidator.Mixfile do
       package: package(),
       deps: deps(),
       docs: docs(),
+      source_url: @source_url,
       dialyzer: [flags: ["-Wunmatched_returns", :error_handling, :race_conditions]]
     ]
   end
@@ -59,7 +60,6 @@ defmodule PasswordValidator.Mixfile do
       ],
       main: "readme",
       canonical: "https://hexdocs.pm/password_validator",
-      source_url: @source_url,
       source_ref: "v#{@version}",
       homepage_url: @source_url,
       formatters: ["html"],
