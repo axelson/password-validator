@@ -29,7 +29,7 @@ by adding `password_validator` to your list of dependencies in `mix.exs`:
 ```elixir
 def deps do
   [
-    {:password_validator, "~> 0.4"},
+    {:password_validator, "~> 0.5"},
   ]
 end
 ```
