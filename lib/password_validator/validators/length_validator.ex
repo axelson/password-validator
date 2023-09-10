@@ -67,7 +67,12 @@ defmodule PasswordValidator.Validators.LengthValidator do
     do: raise("min must be an integer")
 
   defp valid_min_length?(length, min, custom_messages) when length < min,
-    do: error("String is too short. Only #{length} characters instead of #{min}", :too_short, custom_messages)
+    do:
+      error(
+        "String is too short. Only #{length} characters instead of #{min}",
+        :too_short,
+        custom_messages
+      )
 
   defp valid_min_length?(_, _, _),
     do: :ok
