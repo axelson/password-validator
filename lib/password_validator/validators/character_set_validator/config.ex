@@ -13,12 +13,12 @@ defmodule PasswordValidator.Validators.CharacterSetValidator.Config do
   @type keys :: :upper_case | :lower_case | :numbers | :special
 
   @type t() :: %__MODULE__{
-          upper_case: non_neg_integer(),
-          lower_case: non_neg_integer(),
-          numbers: non_neg_integer(),
-          special: non_neg_integer(),
-          allowed_special_characters: String.t() | nil,
-          custom_messages: keyword()
+          upper_case: [:infinity | non_neg_integer()],
+          lower_case: [:infinity | non_neg_integer()],
+          numbers: [:infinity | non_neg_integer()],
+          special: [:infinity | non_neg_integer()],
+          allowed_special_characters: :all | String.t() | nil,
+          custom_messages: any()
         }
 
   @spec from_options(list({atom(), any()})) :: t()

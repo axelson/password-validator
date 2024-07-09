@@ -16,7 +16,7 @@ defmodule PasswordValidator.Mixfile do
       deps: deps(),
       docs: docs(),
       source_url: @source_url,
-      dialyzer: [flags: ["-Wunmatched_returns", :error_handling, :race_conditions]]
+      dialyzer: [flags: ["-Wunmatched_returns", :error_handling]]
     ]
   end
 
