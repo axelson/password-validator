@@ -6,7 +6,7 @@ defmodule PasswordValidatorMetaTest do
   end
 
   test "README.md version is up to date" do
-    app = Mix.Project.get().project[:app]
+    app = Mix.Project.get!().project()[:app]
 
     app_version =
       Application.spec(app, :vsn)
