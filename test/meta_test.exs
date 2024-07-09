@@ -1,6 +1,10 @@
 defmodule PasswordValidatorMetaTest do
   use ExUnit.Case, async: true
 
+  for file <- ["README.md"] do
+    doctest_file(file)
+  end
+
   test "README.md version is up to date" do
     app = Mix.Project.get().project[:app]
 

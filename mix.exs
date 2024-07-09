@@ -12,7 +12,6 @@ defmodule PasswordValidator.Mixfile do
       elixir: "~> 1.7",
       build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
-      aliases: aliases(),
       package: package(),
       deps: deps(),
       docs: docs(),
@@ -43,13 +42,9 @@ defmodule PasswordValidator.Mixfile do
 
   defp deps do
     [
-      # {:mix_machine, "~> 0.1.0", only: [:test]},
-      {:mix_machine, github: "axelson/mix_machine", branch: "debug", only: [:test]},
-      # {:mix_machine, path: "~/dev/forks/mix_machine", only: [:test]},
       {:ecto, "~> 2.1 or ~> 3.0"},
       {:dialyxir, "~> 1.0", only: [:dev, :test], runtime: false},
       {:credo, "~> 1.1", only: [:dev, :test], runtime: false},
-      {:docception, "~> 0.4.1", only: [:test]},
       {:ex_doc, ">= 0.0.0", only: :dev, runtime: false}
     ]
   end
@@ -67,16 +62,6 @@ defmodule PasswordValidator.Mixfile do
       homepage_url: @source_url,
       formatters: ["html"],
       nest_modules_by_prefix: [PasswordValidator.Validators]
-    ]
-  end
-
-  defp aliases do
-    [
-      "config.hash": fn _ ->
-        :crypto.hash(:sha512, Mix.Task.run("loadconfig") |> :erlang.term_to_binary())
-        |> Base.encode64()
-        |> IO.puts()
-      end
     ]
   end
 end
