@@ -28,16 +28,16 @@ jobs:
         otp-version: ${{matrix.otp}}
         elixir-version: ${{matrix.elixir}}
         disable_problem_matchers: true
-        version_type: "strict"
+        version-type: "strict"
     - name: Cache deps
-      uses: actions/cache@v2
+      uses: actions/cache@v4
       with:
         path: |
           ~/.hex
           ~/.mix
           deps
         key: ${{ runner.os }}-${{ matrix.elixir }}-${{ matrix.otp }}-mix-${{ hashFiles('**/mix.lock') }}
-        restoreCache: ${{ runner.os }}-${{ matrix.elixir }}-${{ matrix.otp }}-mix-
+        restore-keys: ${{ runner.os }}-${{ matrix.elixir }}-${{ matrix.otp }}-mix-
     - name: Cache build artifacts
       uses: actions/cache@v2
       with:
