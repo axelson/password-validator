@@ -46,7 +46,7 @@ defmodule PasswordValidator.Validators.CharacterSetValidator do
     validate_password("", config)
   end
 
-  @spec validate_password(String.t(), %Config{}) :: :ok | {:error, nonempty_list()}
+  @spec validate_password(String.t(), Config.t()) :: :ok | {:error, nonempty_list()}
   defp validate_password(string, %Config{} = config) do
     counts = count_character_sets(string, config.allowed_special_characters)
 
@@ -72,7 +72,7 @@ defmodule PasswordValidator.Validators.CharacterSetValidator do
     String.to_atom("#{sub_type}_#{type}")
   end
 
-  @spec validate_character_set(atom(), map(), %Config{}) ::
+  @spec validate_character_set(atom(), map(), Config.t()) ::
           {atom(), :ok} | {atom(), {:error, String.t()}}
   for character_set <- @character_sets do
     def validate_character_set(
@@ -138,7 +138,7 @@ defmodule PasswordValidator.Validators.CharacterSetValidator do
         String.match?(grapheme, ~r/[0-9]/) ->
           update_count(counts, :numbers)
 
-        is_special_character(grapheme, special_characters) ->
+        special_character?(grapheme, special_characters) ->
           update_count(counts, :special)
 
         true ->
@@ -153,10 +153,10 @@ defmodule PasswordValidator.Validators.CharacterSetValidator do
     Map.update!(counts, key, &(&1 + 1))
   end
 
-  @spec is_special_character(String.t(), :all | String.t()) :: boolean()
-  defp is_special_character(_string, :all), do: true
+  @spec special_character?(String.t(), :all | String.t()) :: boolean()
+  defp special_character?(_string, :all), do: true
 
-  defp is_special_character(string, special_characters) when is_binary(special_characters) do
+  defp special_character?(string, special_characters) when is_binary(special_characters) do
     String.contains?(special_characters, string)
   end
 end
