@@ -4,6 +4,8 @@ defmodule PasswordValidator.Validators.CharacterSetValidator do
   within.
   """
 
+  alias PasswordValidator.Validators.CharacterSetValidator.Config
+
   @behaviour PasswordValidator.Validator
 
   @initial_counts %{
@@ -15,8 +17,6 @@ defmodule PasswordValidator.Validators.CharacterSetValidator do
   }
 
   @character_sets [:lower_case, :upper_case, :numbers, :special]
-
-  alias PasswordValidator.Validators.CharacterSetValidator.Config
 
   @doc """
   Example config
