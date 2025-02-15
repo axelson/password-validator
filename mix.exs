@@ -42,6 +42,8 @@ defmodule PasswordValidator.Mixfile do
 
   defp deps do
     [
+      {:junit_formatter, "~> 3.0", only: [:test]},
+      {:igniter, "~> 0.5", only: [:dev, :test]},
       {:ecto, "~> 2.1 or ~> 3.0"},
       {:dialyxir, "~> 1.0", only: [:dev, :test], runtime: false},
       {:credo, "~> 1.1", only: [:dev, :test], runtime: false},
