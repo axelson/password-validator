@@ -23,11 +23,10 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    - uses: erlef/setup-beam@v1
+    - uses: erlef/setup-beam@v1.18.2
       with:
         otp-version: ${{matrix.otp}}
         elixir-version: ${{matrix.elixir}}
-        disable_problem_matchers: true
         version-type: "strict"
     - name: Cache deps
       uses: actions/cache@v4
