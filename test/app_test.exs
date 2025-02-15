@@ -5,6 +5,6 @@ defmodule AppTest do
   doctest App
 
   test "minimum password length is checked" do
-    assert LengthValidator.validate("short", [length: [min: 10]]) == :ok
+    assert LengthValidator.validate("short", length: [min: 10]) == :ok
   end
 end
