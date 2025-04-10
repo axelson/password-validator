@@ -67,9 +67,9 @@ iex> opts = [
 ...>   length: [min: 12, max: 30],
 ...> ]
 iex> changeset = Ecto.Changeset.change({%{password: "simple_pass"}, %{}}, %{})
-#Ecto.Changeset<action: nil, changes: %{}, errors: [], data: %{password: "simple_pass"}, valid?: true>
+#Ecto.Changeset<action: nil, changes: %{}, errors: [], data: %{password: "simple_pass"}, valid?: true, ...>
 iex> PasswordValidator.validate(changeset, :password, opts)
-#Ecto.Changeset<action: nil, changes: %{}, errors: [password: {"String is too short. Only 11 characters instead of 12", [validator: PasswordValidator.Validators.LengthValidator, error_type: :too_short]}], data: %{password: "simple_pass"}, valid?: false>
+#Ecto.Changeset<action: nil, changes: %{}, errors: [password: {"String is too short. Only 11 characters instead of 12", [validator: PasswordValidator.Validators.LengthValidator, error_type: :too_short]}], data: %{password: "simple_pass"}, valid?: false, ...>
 ```
 
 Full example:
